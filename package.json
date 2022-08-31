@@ -1,0 +1,15 @@
+{
+  "name": "fleetbase-extensions-indexer",
+  "version": "0.0.1",
+  "description": "Indexes installed extensions for Fleetbase Console",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "broccoli-plugin": "^4.0.7",
+    "fast-glob": "^3.2.11"
+  }
+}
