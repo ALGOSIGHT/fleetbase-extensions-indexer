@@ -21,7 +21,7 @@ const IndexExtensionsToJson = function () {
     return new Promise((resolve, reject) => {
         const extensions = [];
 
-        return fg(['node_modules/**/flb-*-extension/package.json'])
+        return fg(['node_modules/**/*-engine/package.json'])
             .then((results) => {
                 for (let i = 0; i < results.length; i++) {
                     const path = results[i];
