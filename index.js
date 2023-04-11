@@ -19,7 +19,7 @@ const only = (subject, props = []) => {
 
 const IndexExtensionsToJson = function () {
     return new Promise((resolve, reject) => {
-        const extensions = [];
+        const extensions = {};
 
         return fg(['node_modules/**/*-engine/package.json'])
             .then((results) => {
@@ -33,9 +33,15 @@ const IndexExtensionsToJson = function () {
                         continue;
                     }
 
-                    extensions.push(only(data, ['name', 'description', 'version', 'extension', 'icon', 'keywords', 'license', 'repository']));
+                    const extensionName = data.name;
+
+                    // Only add the extension if it hasn't already been added
+                    if (!extensions[extensionName]) {
+                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'icon', 'keywords', 'license', 'repository']);
+                    }
                 }
-                resolve(extensions);
+
+                resolve(Object.values(extensions));
             })
             .catch(reject);
     });
