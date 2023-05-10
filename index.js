@@ -53,6 +53,13 @@ module.exports = class FleetbaseExtensionsIndexer extends Plugin {
     }
 
     async build() {
+        const extensionsJsonPath = this.outputPath + '/extensions.json';
+
+        // Check if extensions.json exists
+        if (fs.existsSync(extensionsJsonPath)) {
+            return;
+        }
+        
         const extensions = await IndexExtensionsToJson();
 
         this.output.writeFileSync('extensions.json', JSON.stringify(extensions));
