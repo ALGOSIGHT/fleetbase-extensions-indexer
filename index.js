@@ -37,11 +37,14 @@ const IndexExtensionsToJson = function () {
 
                     // Only add the extension if it hasn't already been added
                     if (!extensions[extensionName]) {
-                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'icon', 'keywords', 'license', 'repository']);
+                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'icon', 'keywords', 'license', 'repository', 'priority']);
                     }
                 }
 
-                resolve(Object.values(extensions));
+                // Sorting the extensions based on priority property
+                let sortedExtensions = Object.values(extensions).sort((a, b) => a.priority - b.priority);
+
+                resolve(sortedExtensions);
             })
             .catch(reject);
     });
