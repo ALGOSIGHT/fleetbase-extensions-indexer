@@ -37,7 +37,7 @@ const IndexExtensionsToJson = function () {
 
                     // Only add the extension if it hasn't already been added
                     if (!extensions[extensionName]) {
-                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'icon', 'keywords', 'license', 'repository', 'priority']);
+                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'fleetbase', 'icon', 'keywords', 'license', 'repository', 'priority']);
                     }
                 }
 
