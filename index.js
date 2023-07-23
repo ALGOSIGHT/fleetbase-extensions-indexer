@@ -36,7 +36,7 @@ const IndexExtensionsToJson = function () {
                         continue;
                     }
 
-                    if (!packageData || !packageData.keywords || !packageData.keywords.includes('fleetbase-extension') || !packageData.keywords.includes('ember-engine')) {
+                    if (!packageData || !packageData.keywords || !packageData.keywords.includes('fleetbase-extension')) {
                         continue;
                     }
 

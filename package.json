@@ -1,6 +1,6 @@
 {
     "name": "fleetbase-extensions-indexer",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Indexes installed extensions for Fleetbase Console.",
     "main": "index.js",
     "scripts": {
