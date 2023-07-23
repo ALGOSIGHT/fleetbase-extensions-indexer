@@ -19,32 +19,37 @@ const only = (subject, props = []) => {
 
 const IndexExtensionsToJson = function () {
     return new Promise((resolve, reject) => {
-        const extensions = {};
+        const extensions = [];
+        const seenPackages = new Set();
 
-        return fg(['node_modules/**/*-engine/package.json'])
+        return fg(['node_modules/*/package.json', 'node_modules/*/*/package.json'])
             .then((results) => {
                 for (let i = 0; i < results.length; i++) {
-                    const path = results[i];
+                    const packagePath = results[i];
+                    const packageJson = fs.readFileSync(packagePath);
+                    let packageData = null;
 
-                    let json = fs.readFileSync(path);
-                    let data = JSON.parse(json);
-
-                    if (data?.extension === undefined || data?.extension === null) {
+                    try {
+                        packageData = JSON.parse(packageJson);
+                    } catch (e) {
+                        console.warn(`Could not parse package.json at ${packagePath}:`, e);
                         continue;
                     }
 
-                    const extensionName = data.name;
-
-                    // Only add the extension if it hasn't already been added
-                    if (!extensions[extensionName]) {
-                        extensions[extensionName] = only(data, ['name', 'description', 'version', 'extension', 'fleetbase', 'icon', 'keywords', 'license', 'repository', 'priority']);
+                    if (!packageData || !packageData.keywords || !packageData.keywords.includes('fleetbase-extension')) {
+                        continue;
                     }
+
+                    // If we've seen this package before, skip it
+                    if (seenPackages.has(packageData.name)) {
+                        continue;
+                    }
+
+                    seenPackages.add(packageData.name);
+                    extensions.push(only(packageData, ['name', 'description', 'version', 'fleetbase', 'keywords', 'license', 'repository']));
                 }
 
-                // Sorting the extensions based on priority property
-                let sortedExtensions = Object.values(extensions).sort((a, b) => a.priority - b.priority);
-
-                resolve(sortedExtensions);
+                resolve(extensions);
             })
             .catch(reject);
     });
@@ -62,7 +67,7 @@ module.exports = class FleetbaseExtensionsIndexer extends Plugin {
         if (fs.existsSync(extensionsJsonPath)) {
             return;
         }
-        
+
         const extensions = await IndexExtensionsToJson();
 
         this.output.writeFileSync('extensions.json', JSON.stringify(extensions));
