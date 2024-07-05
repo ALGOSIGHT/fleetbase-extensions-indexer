@@ -1,6 +1,6 @@
 {
     "name": "fleetbase-extensions-indexer",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Indexes installed extensions for Fleetbase Console.",
     "main": "index.js",
     "scripts": {
@@ -13,7 +13,7 @@
         "fleetbase"
     ],
     "repository": "https://github.com/fleetbase/fleetbase-extension-indexer",
-    "license": "MIT",
+    "license": "AGPL-3.0-or-later",
     "author": "Fleetbase Pte Ltd <hello@fleetbase.io>",
     "dependencies": {
         "broccoli-plugin": "^4.0.7",
